@@ -13,7 +13,7 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     if @task.save
       redirect_to tasks_path
-      flash[:notice] = "Task was successfully created."
+      flash[:notice] = t('activerecord.attributes.task.task_created')
     else
       render :new
     end
@@ -28,7 +28,7 @@ class TasksController < ApplicationController
   def update
     if @task.update(task_params)
       redirect_to tasks_path, notice: 'Task was successfully updated.'
-      flash[:notice] = "Task was successfully updated."
+      flash[:notice] = t('activerecord.attributes.task.task_updated')
     else
       render :edit
     end
@@ -36,8 +36,8 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    redirect_to tasks_path, notice: 'Task was successfully destroyed.'
-    flash[:notice] = "Task was successfully destroyed."
+    redirect_to tasks_path
+    flash[:notice] = t('activerecord.attributes.task.task_destroyed')
   end
 
   private

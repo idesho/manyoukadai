@@ -1,4 +1,4 @@
-<h1>New Task Page</h1>
+<h1><%= t('activerecord.attributes.task.new_task') %></h1>
 
 <%= render 'form', task: @task ,class: 'create-task' %>
-<%= link_to 'Back', tasks_path ,class: 'back' %>
+<%= link_to t('activerecord.attributes.task.back'), tasks_path ,class: 'back' %>
