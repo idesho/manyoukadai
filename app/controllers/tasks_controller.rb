@@ -21,46 +21,37 @@ class TasksController < ApplicationController
         @tasks = Task.page(params[:page]).search_title(params[:search][:title])
       end 
     end
-
-  end
+  end 
 
   def new
     @task = Task.new
   end
-
   def create
     @task = Task.new(task_params)
     if @task.save
-      redirect_to tasks_path
-      flash[:notice] = t('activerecord.attributes.task.task_created')
+      redirect_to tasks_path, notice: Task.human_attribute_name(:task_created)
     else
       render :new
     end
   end
-
   def show
   end
-
   def edit
   end
-
   def update
     if @task.update(task_params)
-      redirect_to tasks_path, notice: 'Task was successfully updated.'
-      flash[:notice] = t('activerecord.attributes.task.task_updated')
+      redirect_to tasks_path, notice: Task.human_attribute_name(:task_updated)
     else
       render :edit
     end
   end
-
   def destroy
     @task.destroy
-    redirect_to tasks_path
-    flash[:notice] = t('activerecord.attributes.task.task_destroyed')
+    redirect_to tasks_path, notice: Task.human_attribute_name(:task_destroyed)
   end
-
+  
   private
-
+  
     def set_task
       @task = Task.find(params[:id])
     end

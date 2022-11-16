@@ -1,4 +1,4 @@
-<h1><%= t('activerecord.attributes.task.tasks_index') %></h1>
+<h1><%= Task.human_attribute_name(:tasks_index) %></h1>
 
 <%= form_with(scope: :search, method: :get, local: true) do |form| %>
   <div>
@@ -10,7 +10,7 @@
     <%= form.text_field :title %>
   </div>
   <div>
-    <%= form.submit Task.human_attribute_name(:search),id: 'search-task' %>
+    <%= form.submit Task.human_attribute_name(:search),id: 'search_task' %>
   </div>
 <% end %>
 
@@ -35,15 +35,11 @@
         <td><%= task.deadline_on.strftime('%Y/%m/%d') %></td>
         <td><%= task.priority %></td>
         <td><%= task.status %></td>
-        <td><%= link_to t('activerecord.attributes.task.show'), task %></td>
-        <td><%= link_to t('activerecord.attributes.task.edit'), edit_task_path(task) %></td>
-        <td><%= link_to t('activerecord.attributes.task.destroy'), task, method: :delete, data: { confirm: t('common.confirm_destroy') } %></td>
+        <td><%= link_to Task.human_attribute_name(:show), task ,class: 'show-task' %></td>
+        <td><%= link_to Task.human_attribute_name(:edit), edit_task_path(task),class: 'edit-task' %></td>
+        <td><%= link_to Task.human_attribute_name(:destroy), task , class: 'destroy-task', method: :delete, data: { confirm: Task.human_attribute_name(:are_you_sure?) } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-
-
-<%= link_to t('activerecord.attributes.task.new'), new_task_path %>
 <%= paginate @tasks %>

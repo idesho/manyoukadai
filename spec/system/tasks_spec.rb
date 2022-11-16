@@ -34,6 +34,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(task_list[3].text).to have_content 'task_title3'
       end
     end
+
     context '新たにタスクを作成した場合' do
       it '新しいタスクが一番上に表示される' do
         task = forth_task.title
@@ -43,6 +44,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
+  
   describe '詳細表示機能' do
     context '任意のタスク詳細画面に遷移した場合' do
       it 'そのタスクの内容が表示される' do
@@ -114,12 +116,12 @@ RSpec.describe 'タスク管理機能', type: :system do
     context 'タイトルとステータスで検索した場合' do
       it "検索ワードをタイトルに含み、かつステータスに一致するタスクのみ表示される" do
         # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
-        fill_in 'search_title', with: 'first'
-        select '未着手', from: 'search_status'
+        fill_in 'タイトル', with: 'first'
+        select '未着手', from: 'ステータス'#search_status'
         click_button '検索'
-        expect(page).to have_content 'first_task_title'
-        expect(page).not_to have_content 'second_task_title'
-        expect(page).not_to have_content 'third_task_title'
+        expect(page).to have_content 'first_task'
+        expect(page).to have_content '未着手'
+        expect(page).not_to have_content 'second_task'
       end
     end
   end

@@ -14,7 +14,6 @@
     <%= form.label :title %><br>
     <%= form.text_field :title %>
   </div>
-  
   <div>
     <%= form.label :content %><br>
     <%= form.text_area :content %>
@@ -39,5 +38,4 @@
     <%= form.submit Task.human_attribute_name(:create_task),id: 'create-task' %>
   </div>
 <% end %>
-
 <%= link_to Task.human_attribute_name(:back), tasks_path ,id: 'back' %>

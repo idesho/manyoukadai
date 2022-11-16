@@ -37,5 +37,5 @@
   <div>
     <%= form.submit Task.human_attribute_name(:update_task),id: 'update-task' %>
   </div>
-
 <% end %>
+<%= link_to Task.human_attribute_name(:back), tasks_path ,id: 'back' %>
