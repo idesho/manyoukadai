@@ -4,11 +4,11 @@ RSpec.describe 'タスク管理機能', type: :system do
     context 'タスクを登録した場合' do
       it '登録したタスクが表示される' do
         visit new_task_path
-        fill_in 'タイトル', with: '書類作成'
-        fill_in '内容', with: '企画書を作成する'
-        fill_in "task[deadline_on]", with: "2019-11-11"
-        select '低', from: 'task_priority'
-        select '未着手', from: 'task_status'
+        fill_in 'task[title]', with: '書類作成'
+        fill_in 'task[content]', with: '企画書を作成する'
+        fill_in "task[deadline_on]", with: "002019-11-11"
+        select '低', from: 'task[priority]'
+        select '未着手', from: 'task[status]'
         click_button '登録する'
         expect(page).to have_content '書類作成'
       end
@@ -65,7 +65,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       it "終了期限昇順に並び替えられたタスク一覧が表示される" do
         click_link '終了期限'
         task_list = all('tbody tr')
-        expect(task_list[0].text).to have_content 'first_task_title'
+        expect(task_list[2].text).to have_content 'first_task_title'
         #expect(task_list[1].text).to have_content 'second_task_title'
         #expect(task_list[3].text).to have_content 'third_task_title'
       end
@@ -77,7 +77,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         task_list = all('tbody tr')
         expect(task_list[0].text).to have_content 'first_task_title'
         # expect(task_list[1].text).to have_content 'second_task_title'
-        # expect(task_list[3].text).to have_content 'third_task_title'
+        #expect(task_list[3].text).to have_content 'third_task_title'
       end
     end
   end
@@ -92,7 +92,7 @@ RSpec.describe 'タスク管理機能', type: :system do
 
     context 'タイトルであいまい検索をした場合' do
       it "検索ワードを含むタスクのみ表示される" do
-        fill_in 'search_title', with: 'first'
+        fill_in 'search[title]', with: 'first'
         click_button '検索'
         expect(page).to have_content 'first_task_title'
         expect(page).not_to have_content 'second_task_title'
@@ -102,7 +102,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     context 'ステータスで検索した場合' do
       it "検索したステータスに一致するタスクのみ表示される" do
         # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
-        select '未着手', from: 'search_status'
+        select '未着手', from: 'search[status]'
         click_button '検索'
         expect(page).to have_content 'first_task_title'
         expect(page).not_to have_content 'second_task_title'
@@ -111,8 +111,8 @@ RSpec.describe 'タスク管理機能', type: :system do
     end
     context 'タイトルとステータスで検索した場合' do
       it "検索ワードをタイトルに含み、かつステータスに一致するタスクのみ表示される" do
-        fill_in 'タイトル', with: 'first'
-        select '未着手', from: 'ステータス' #search_status
+        fill_in 'search[title]', with: 'first'
+        select '未着手', from: 'search[status]'
         click_button '検索'
         expect(page).to have_content 'first_task'
         expect(page).to have_content '未着手'
