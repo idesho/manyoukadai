@@ -2,52 +2,61 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
 
   def index
-    @tasks = Task.all
-    @tasks = Task.order(created_at: :desc).page(params[:page])
-  end
+    @tasks = Task.page(params[:page]).sort_created_at
+
+    # 終了期限/優先度ソート機能
+    if params[:sort_deadline_on]
+      @tasks = Task.page(params[:page]).sort_deadline_on
+    elsif params[:sort_priority]
+      @tasks = Task.page(params[:page]).sort_priority
+    end
+
+    # 検索機能
+    if params[:search].present?
+      if params[:search][:status].present? && params[:search][:title].present?
+        @tasks = Task.page(params[:page]).search_status(params[:search][:status]).search_title(params[:search][:title])
+      elsif params[:search][:status].present?
+        @tasks = Task.page(params[:page]).search_status(params[:search][:status])
+      elsif params[:search][:title].present?
+        @tasks = Task.page(params[:page]).search_title(params[:search][:title])
+      end 
+    end
+  end 
 
   def new
     @task = Task.new
   end
-
   def create
     @task = Task.new(task_params)
     if @task.save
-      redirect_to tasks_path
-      flash[:notice] = t('activerecord.attributes.task.task_created')
+      redirect_to tasks_path, notice: Task.human_attribute_name(:task_created)
     else
       render :new
     end
   end
-
   def show
   end
-
   def edit
   end
-
   def update
     if @task.update(task_params)
-      redirect_to tasks_path, notice: 'Task was successfully updated.'
-      flash[:notice] = t('activerecord.attributes.task.task_updated')
+      redirect_to tasks_path, notice: Task.human_attribute_name(:task_updated)
     else
       render :edit
     end
   end
-
   def destroy
     @task.destroy
-    redirect_to tasks_path
-    flash[:notice] = t('activerecord.attributes.task.task_destroyed')
+    redirect_to tasks_path, notice: Task.human_attribute_name(:task_destroyed)
   end
-
+  
   private
-
+  
     def set_task
       @task = Task.find(params[:id])
     end
 
     def task_params
-      params.require(:task).permit(:title, :content)
+      params.require(:task).permit(:title, :content, :deadline_on, :priority, :status)
     end
 end

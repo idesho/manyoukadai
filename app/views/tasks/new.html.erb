@@ -1,4 +1,41 @@
-<h1><%= t('activerecord.attributes.task.new_task') %></h1>
+<h1><%= Task.human_attribute_name(:new_task) %></h1>
+<%= form_with(model: @task, local: true) do |form| %>
+  <% if @task.errors.any? %>
+    <div>
+      <h2><%= @task.errors.count %>件のエラーが発生しました</h2>
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </div>
+  <div>
+    <%= form.label :content %><br>
+    <%= form.text_area :content %>
+  </div>
 
-<%= render 'form', task: @task ,class: 'create-task' %>
-<%= link_to t('activerecord.attributes.task.back'), tasks_path ,class: 'back' %>
+  <div>
+    <%= form.label :deadline_on %><br>
+    <%= form.date_field :deadline_on %>
+  </div>
+
+  <div>
+    <%= form.label :priority %><br>
+    <%= form.select :priority, Task.priorities.keys, include_blank: "" %>
+  </div>
+
+  <div>
+    <%= form.label :status %><br>
+    <%= form.select :status, Task.statuses.keys, include_blank: "" %>
+  </div>
+
+  <div>
+    <%= form.submit Task.human_attribute_name(:create_task),id: 'create-task' %>
+  </div>
+<% end %>
+<%= link_to Task.human_attribute_name(:back), tasks_path ,id: 'back' %>
