@@ -4,8 +4,8 @@ RSpec.describe 'タスク管理機能', type: :system do
   before do
     @current_user = User.find_by(email: "adminadmino@piyopiyo.com")
     visit new_session_path
-    fill_in 'メールアドレス', with: 'adminadmino@piyopiyo.com'
-    fill_in 'パスワード', with: '123456'
+    fill_in 'session[email]', with: 'adminadmino@piyopiyo.com'
+    fill_in 'session[password]', with: '123456'
     click_button 'ログイン'
   end
 
