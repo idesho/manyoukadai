@@ -1,0 +1,33 @@
+<h1>ユーザー編集ページ</h1>
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2>エラーが<%= pluralize(@user.errors.count, "件") %>件発生しました</h2>
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_with(model: @user, local: true) do |f| %>
+  <div>
+    <%= f.label :名前  %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :メールアドレス %><br>
+    <%= f.email_field :email %>
+  </div>
+  <div>
+    <%= f.label :パスワード %><br>
+    <%= f.password_field :password %>
+  </div>
+  <div>
+    <%= f.label :パスワード（確認） %><br>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div>
+    <%= f.submit "更新する", id: 'update-user'%>
+  </div>
+<% end %>
+<%= link_to Task.human_attribute_n
