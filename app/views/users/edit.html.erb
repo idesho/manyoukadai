@@ -30,4 +30,5 @@
     <%= f.submit "更新する", id: 'update-user'%>
   </div>
 <% end %>
-<%= link_to Task.human_attribute_n
+
+<%= link_to Task.human_attribute_name(:back), user_path(current_user.id) ,id: 'back' %>
