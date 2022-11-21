@@ -5,10 +5,10 @@ RSpec.describe 'ユーザ管理機能', type: :system do
     context 'ユーザを登録した場合' do
       it 'タスク一覧画面に遷移する' do
         visit new_user_path
-        fill_in '名前', with: 'ハム太郎'
-        fill_in 'メールアドレス', with: 'hamuhamu@hamuhamu.com'
-        fill_in 'パスワード', with: '123456'
-        fill_in 'パスワード（確認）', with: '123456'
+        fill_in 'user[name]', with: 'ハム太郎'
+        fill_in 'user[email]', with: 'hamuhamu@hamuhamu.com'
+        fill_in 'user[password]', with: '123456'
+        fill_in 'user[password_confirmation]', with: '123456'
         click_button '登録する'
         expect(page).to have_content 'タスク一覧ページ'
       end
@@ -25,8 +25,8 @@ RSpec.describe 'ユーザ管理機能', type: :system do
     let!(:normal_user) { FactoryBot.create(:normal_user) }
     before do
       visit new_session_path
-      fill_in 'メールアドレス', with: 'adminadmino@piyopiyo.com'
-      fill_in 'パスワード', with: '123456'
+      fill_in 'session[email]', with: 'adminadmino@piyopiyo.com'
+      fill_in 'session[password]', with: '123456'
       click_button 'ログイン'
     end
 
@@ -60,8 +60,8 @@ RSpec.describe 'ユーザ管理機能', type: :system do
     context '管理者がログインした場合' do
       before do
         visit new_session_path
-        fill_in 'メールアドレス', with: 'adminadmino@piyopiyo.com'
-        fill_in 'パスワード', with: '123456'
+        fill_in 'session[email]', with: 'adminadmino@piyopiyo.com'
+        fill_in 'session[password]', with: '123456'
         click_button 'ログイン'
       end
 
@@ -84,7 +84,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
       it 'ユーザ編集画面から、自分以外のユーザを編集できる' do
         click_link 'ユーザ一覧ページ'
         click_link '編集', match: :first
-        expect(page).to have_content 'ユーザ編集ページ'
+        expect(page).to have_content 'アカウント編集ページ'
       end
 
       it 'ユーザを削除できる' do
@@ -101,8 +101,8 @@ RSpec.describe 'ユーザ管理機能', type: :system do
       let!(:first_user) { FactoryBot.create(:first_user) }
       before do
         visit new_session_path
-        fill_in 'メールアドレス', with: 'normalnormal@piyopiyo.com'
-        fill_in 'パスワード', with: '123456'
+        fill_in 'session[email]', with: 'normalnormal@piyopiyo.com'
+        fill_in 'session[password]', with: '123456'
         click_button 'ログイン'
       end
 
