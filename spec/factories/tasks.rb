@@ -1,5 +1,6 @@
 FactoryBot.define do
-factory :task do
+
+  factory :task do
   title { '書類作成' }
   content { '企画書を作成する。' }
   created_at { '2025/02/19' }
@@ -7,9 +8,9 @@ factory :task do
   priority { 1 }
   status { 0 }
   user_id { 1 }
-end
+  end
 
-factory :first_task, class: Task do
+  factory :first_task, class: Task do
   title { 'メール送信' }
   content { '顧客へ営業のメールを送る。' }
   created_at { '2025/02/18' }
@@ -17,9 +18,9 @@ factory :first_task, class: Task do
   priority { 1 }
   status { 0 }
   user_id {  }
-end
+  end
 
-factory :second_task, class: Task do
+  factory :second_task, class: Task do
   title { 'メール送信' }
   content { '顧客へ営業のメールを送る。' }
   created_at { '2025/02/17' }
@@ -27,9 +28,9 @@ factory :second_task, class: Task do
   priority { 2 }
   status { 1 }
   user_id {  }
-end
+  end
 
-factory :third_task, class: Task do
+  factory :third_task, class: Task do
   title { 'メール送信' }
   content { '顧客へ営業のメールを送る。' }
   created_at { '2025/02/16' }
@@ -37,5 +38,16 @@ factory :third_task, class: Task do
   priority { 0 }
   status { 2 }
   user_id {  }
-end
+  end
+
+  factory :association_task, class: Task do
+    title { 'メール送信' }
+    content { '顧客へ営業のメールを送る。' }
+    created_at { '2025/02/16' }
+    deadline_on { '2025/02/16' }
+    priority { 0 }
+    status { 2 }
+    user_id {  }
+    association :label
+  end
 end
