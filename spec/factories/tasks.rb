@@ -6,6 +6,7 @@ factory :task do
   deadline_on { '2025/02/18' }
   priority { 1 }
   status { 0 }
+  user_id { 1 }
 end
 
 factory :first_task, class: Task do
@@ -15,6 +16,7 @@ factory :first_task, class: Task do
   deadline_on { '2025/02/18' }
   priority { 1 }
   status { 0 }
+  user_id {  }
 end
 
 factory :second_task, class: Task do
@@ -24,6 +26,7 @@ factory :second_task, class: Task do
   deadline_on { '2025/02/17' }
   priority { 2 }
   status { 1 }
+  user_id {  }
 end
 
 factory :third_task, class: Task do
@@ -33,5 +36,6 @@ factory :third_task, class: Task do
   deadline_on { '2025/02/16' }
   priority { 0 }
   status { 2 }
+  user_id {  }
 end
 end

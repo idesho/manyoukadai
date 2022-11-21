@@ -1,5 +1,14 @@
 require 'rails_helper'
 RSpec.describe 'タスク管理機能', type: :system do
+  let!(:admin_user) { FactoryBot.create(:admin_user) }
+  before do
+    @current_user = User.find_by(email: "adminadmino@piyopiyo.com")
+    visit new_session_path
+    fill_in 'session[email]', with: 'adminadmino@piyopiyo.com'
+    fill_in 'session[password]', with: '123456'
+    click_button 'ログイン'
+  end
+
   describe '登録機能' do
     context 'タスクを登録した場合' do
       it '登録したタスクが表示される' do
@@ -16,10 +25,10 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
 
   describe '一覧表示機能' do
-    let!(:first_task) { FactoryBot.create(:first_task, title: 'task_title1') }
-    let!(:second_task) { FactoryBot.create(:second_task, title: 'task_title2') }
-    let!(:third_task) { FactoryBot.create(:third_task, title: 'task_title3') }
-    let(:forth_task) { FactoryBot.create(:task) }
+    let!(:first_task) { FactoryBot.create(:first_task, title: 'task_title1', user_id: @current_user.id) }
+    let!(:second_task) { FactoryBot.create(:second_task, title: 'task_title2', user_id: @current_user.id) }
+    let!(:third_task) { FactoryBot.create(:third_task, title: 'task_title3', user_id: @current_user.id) }
+    let(:forth_task) { FactoryBot.create(:task, user_id: @current_user.id) }
     before do
       visit tasks_path
     end
@@ -46,7 +55,7 @@ RSpec.describe 'タスク管理機能', type: :system do
   describe '詳細表示機能' do
     context '任意のタスク詳細画面に遷移した場合' do
       it 'そのタスクの内容が表示される' do
-        @task = FactoryBot.create(:task)
+        @task = FactoryBot.create(:task, user_id: @current_user.id)
         visit tasks_path(@task)
         expect(page).to have_content '書類作成'
       end
@@ -54,9 +63,9 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
 
   describe 'ソート機能' do
-    let!(:first_task) { FactoryBot.create(:first_task, title: 'first_task_title') }
-    let!(:second_task) { FactoryBot.create(:second_task, title: 'second_task_title') }
-    let!(:third_task) { FactoryBot.create(:third_task, title: 'third_task_title') }
+    let!(:first_task) { FactoryBot.create(:first_task, title: 'first_task_title', user_id: @current_user.id) }
+    let!(:second_task) { FactoryBot.create(:second_task, title: 'second_task_title', user_id: @current_user.id) }
+    let!(:third_task) { FactoryBot.create(:third_task, title: 'third_task_title', user_id: @current_user.id) }
     before do
       visit tasks_path
     end
@@ -85,9 +94,9 @@ RSpec.describe 'タスク管理機能', type: :system do
   end
 
   describe '検索機能' do
-    let!(:first_task) { FactoryBot.create(:first_task, title: 'first_task_title') }
-    let!(:second_task) { FactoryBot.create(:second_task, title: 'second_task_title') }
-    let!(:third_task) { FactoryBot.create(:third_task, title: 'third_task_title') }
+    let!(:first_task) { FactoryBot.create(:first_task, title: 'first_task_title', user_id: @current_user.id) }
+    let!(:second_task) { FactoryBot.create(:second_task, title: 'second_task_title', user_id: @current_user.id) }
+    let!(:third_task) { FactoryBot.create(:third_task, title: 'third_task_title', user_id: @current_user.id) }
     before do
       visit tasks_path
     end
