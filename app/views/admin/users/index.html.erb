@@ -3,14 +3,15 @@
 <table class="table-striped">
   <thead>
     <tr>
-    <th><%= t('.name') %></th>
-    <th><%= t('.email') %></th>
-    <th><%= t('.admin') %></th>
-    <th><%= t('.tasks_number') %></th>
+      <th><%= t('.name') %></th>
+      <th><%= t('.email') %></th>
+      <th><%= t('.admin') %></th>
+      <th><%= t('.tasks_number') %></th>
     </tr>
   </thead>
 
   <tbody>
+    <%# preloadはN+1問題のため %>
     <% @users.preload(:tasks).each do |user| %>
       <tr>
         <td><%= user.name  %></td>

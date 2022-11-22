@@ -4,7 +4,7 @@
   <% if @task.errors.any? %>
     <div>
       <h2><%= @task.errors.count %>件のエラーが発生しました</h2>
-      
+
       <ul>
         <% @task.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -12,12 +12,12 @@
       </ul>
     </div>
   <% end %>
-  
+
   <div>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
   </div>
-  
+
   <div>
     <%= form.label :content %><br>
     <%= form.text_area :content %>
@@ -47,9 +47,8 @@
   </div>
 
   <div>
-   <%= form.submit id: 'update-task', class: "btn btn-primary" %>
+    <%= form.submit id: 'update-task', class: "btn btn-primary" %>
   </div>
 
 <% end %>
-
 <%= link_to t('.back'), tasks_path ,id: 'back' %>

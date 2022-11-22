@@ -9,7 +9,6 @@
     </ul>
   </div>
 <% end %>
-
 <%= form_with(model: @label, local: true) do |f| %>
   <div>
     <%= f.label :name %><br>
@@ -19,5 +18,4 @@
     <%= f.submit class: "btn btn-primary" %>
   </div>
 <% end %>
-
-<%= link_to t('.back'), tasks_path ,id: 'back' %>
+<%= link_to t('.back'), labels_path ,id: 'back' %>

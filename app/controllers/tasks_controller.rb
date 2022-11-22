@@ -6,6 +6,7 @@ class TasksController < ApplicationController
 
   def index
     @tasks = @current_user.tasks
+
     # 終了期限/優先度ソート機能
     if params[:sort_deadline_on]
       @tasks = @tasks.sort_deadline_on
@@ -16,18 +17,31 @@ class TasksController < ApplicationController
     # 検索機能
     if params[:search].present?
       @tasks = @tasks
-      .search_status(params[:search][:status])
-      .search_title(params[:search][:title])
-      .search_label(params[:search][:label_id])
+        .search_status(params[:search][:status])
+        .search_title(params[:search][:title])
+        .search_label(params[:search][:label_id])
     end
+
+    # ページネーション
     @tasks = @tasks.page(params[:page]).default_order
-  end 
+    
+    # 下記はmodelへ記載
+    # if params[:search].present?
+    #   if params[:search][:status].present? && params[:search][:title].present?
+    #     @tasks = @tasks.search_status(params[:search][:status]).search_title(params[:search][:title])
+    #   elsif params[:search][:status].present?
+    #     @tasks = @tasks.search_status(params[:search][:status])
+    #   elsif params[:search][:title].present?
+    #     @tasks = @tasks.search_title(params[:search][:title])
+    #   end 
+    # end
+  end
 
   def new
     @task = Task.new
     @labels = current_user.labels
   end
-  
+
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
@@ -68,9 +82,9 @@ class TasksController < ApplicationController
     @task.destroy
     redirect_to tasks_path, notice: t('.task_destroyed')
   end
-  
+
   private
-  
+
     def set_task
       @task = Task.find(params[:id])
     end
@@ -83,4 +97,4 @@ class TasksController < ApplicationController
       user_id = Task.find(params[:id]).user_id
       redirect_to tasks_path, notice:  User.human_attribute_name(:correct_user) unless current_user?(user_id)
     end
-  end
+end

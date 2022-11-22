@@ -9,21 +9,20 @@
     </ul>
   </div>
 <% end %>
-
 <%= form_with(model: @task, local: true) do |form| %>
-  
   <div>
     <%= form.label :title %><br>
-    <%= form.text_field :title, class: "form-control", class: "form-control"  %>
+    <%= form.text_field :title, class: "form-control", class: "form-control" %>
   </div>
+
   <div>
     <%= form.label :content %><br>
-    <%= form.text_area :content, class: "form-control", class: "form-control"%>
+    <%= form.text_area :content , class: "form-control", class: "form-control"  %>
   </div>
 
   <div>
     <%= form.label :deadline_on %><br>
-    <%= form.date_field :deadline_on, class: "form-control"%>
+    <%= form.date_field :deadline_on, class: "form-control" %>
   </div>
 
   <div>
@@ -33,13 +32,13 @@
 
   <div>
     <%= form.label :status %><br>
-    <%= form.select :status, Task.statuses.keys, include_blank: "", class: "form-control" %>
+    <%= form.select :status, Task.statuses.keys, include_blank: "", class: "form-control"  %>
   </div>
-
+  
   <div>
     <%= form.label :label_name %><br>
     <% @labels.each do |label| %>
-        <%= form.check_box :label_ids, { multiple: true, include_hidden: false }, label[:id], class: 'w' %>
+      <%= form.check_box :label_ids, { multiple: true, include_hidden: false }, label[:id], class: 'w' %>
       <%= label.name  %>
     <% end %>
   </div>
@@ -48,5 +47,4 @@
     <%= form.submit id: 'create-task', class: "btn btn-primary" %>
   </div>
 <% end %>
-
 <%= link_to t('.back'), tasks_path ,id: 'back' %>

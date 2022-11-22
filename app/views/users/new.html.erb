@@ -1,7 +1,7 @@
-<h1>アカウント登録ページ</h1>
+<h1><%= t('.Sign up') %></h1>
 <% if @user.errors.any? %>
   <div id="error_explanation">
-   <h2>エラーが<%= pluralize(@user.errors.count, "件") %>発生しました</h2>
+    <h2>エラーが<%= pluralize(@user.errors.count, "件") %>発生しました</h2>
     <ul>
     <% @user.errors.full_messages.each do |message| %>
       <li><%= message %></li>
@@ -9,9 +9,8 @@
     </ul>
   </div>
 <% end %>
-
 <%= form_with(model: @user, local: true) do |f| %>
-    <div>
+  <div>
     <%= f.label :name, t('.name') %><br>
     <%= f.text_field :name, class: "form-control" %>
   </div>
@@ -25,7 +24,7 @@
   </div>
   <div>
     <%= f.label :password_confirmation, t('.password_confirmation') %><br>
-    <%= f.password_field :password_confirmation , class: "form-control"%>
+    <%= f.password_field :password_confirmation, class: "form-control" %>
   </div>
   <div>
     <%= f.submit id: 'create-user' %>
