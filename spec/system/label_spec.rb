@@ -13,13 +13,13 @@ RSpec.describe 'ラベル管理機能', type: :system do
     context 'ラベルを登録した場合' do
       it '登録したラベルが表示される' do
         visit new_label_path
-        fill_in 'label[name]', with: 'らべる'
+        fill_in 'label[name]', with: 'ラベル'
         click_button '登録する'
-        expect(page).to have_content 'らべる'
+        expect(page).to have_content 'ラベル'
       end
     end
   end
-  describe '一覧表示機能' do
+  describe '一覧表示機能' do 
     let!(:first_label) { FactoryBot.create(:first_label, user_id: @current_user.id) }
     context '一覧画面に遷移した場合' do
       it '登録済みのラベル一覧が表示される' do

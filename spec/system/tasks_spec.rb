@@ -147,7 +147,6 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(page).to have_content 'first_task_title'
         expect(page).not_to have_content 'second_task_title'
         expect(page).not_to have_content 'third_task_title'
-        # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
       end
     end
   end
