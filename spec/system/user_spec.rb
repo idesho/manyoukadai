@@ -84,7 +84,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
       it 'ユーザ編集画面から、自分以外のユーザを編集できる' do
         find("#users-index").click
         click_link '編集', match: :first
-        expect(page).to have_content 'アカウント編集ページ'
+        expect(page).to have_content 'ユーザ編集ページ'
       end
 
       it 'ユーザを削除できる' do

@@ -9,7 +9,6 @@
     </ul>
   </div>
 <% end %>
-
 <%= form_with(model: [:admin, @user], local: true) do |f| %>
   <div>
     <%= f.label :name, t('.name')  %><br>
@@ -35,5 +34,4 @@
     <%= f.submit id: 'create-user', class: "btn btn-primary" %>
   </div>
 <% end %>
-
 <%= link_to t('.back'), labels_path ,id: 'back' %>

@@ -5,7 +5,7 @@ RSpec.describe 'ラベルモデル機能', type: :model do
   before do
     @current_user = User.find_by(email: "adminadmino@piyopiyo.com")
   end
-
+  
   describe 'バリデーションのテスト' do
     context 'ラベルの名前が空文字の場合' do
       it 'バリデーションに失敗する' do
