@@ -4,33 +4,30 @@
     <title>CdpWebManyoTask</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
-      <!--<li><%= link_to "Tasks Index", tasks_path, id: "tasks-index"%></li>
-      <li><%= link_to "New Task", new_task_path, id: "new-task"%></li>-->
-      <% flash.each do |key, value| %>
+    <% flash.each do |key, value| %>
       <%= content_tag(:div, value, class: "#{key}") %>
     <% end %>
-    
     <% if logged_in? && admin_user? %>
-    <li><%= link_to User.human_attribute_name(:users_index), admin_users_path , id: "users-index"%></li>
-      <li><%= link_to User.human_attribute_name(:add_user), new_admin_user_path , id: "new-user"%></li>
-      <li><%= link_to Task.human_attribute_name(:tasks_index_nav), tasks_path , id: "tasks-index"%></li>
-      <li><%= link_to Task.human_attribute_name(:new_task_nav), new_task_path , id: "new-task"%></li>
-      <li><%= link_to Task.human_attribute_name(:my_account), user_path(current_user.id), id: "my-account" %></li>
-      <li><%= link_to Task.human_attribute_name(:sign_out), session_path(current_user.id), method: :delete, id: "sign-out" %></li>
-      <% elsif logged_in? %>
-      <li><%= link_to Task.human_attribute_name(:tasks_index_nav), tasks_path , id: "tasks-index"%></li>
-      <li><%= link_to Task.human_attribute_name(:new_task_nav), new_task_path , id: "new-task"%></li>
-      <li><%= link_to Task.human_attribute_name(:my_account), user_path(current_user.id), id: "my-account" %></li>
-      <li><%= link_to Task.human_attribute_name(:sign_out), session_path(current_user.id), method: :delete, id: "sign-out" %></li>
+      <li><%= link_to t('.users_index'), admin_users_path , id: "users-index" %></li>
+      <li><%= link_to t('.add_user'), new_admin_user_path , id: "new-user" %></li>
+      <li><%= link_to t('.label_index'), labels_path , id: "labels-index" %></li>
+      <li><%= link_to t('.add_label'), new_label_path , id: "new-label" %></li>
+      <li><%= link_to t('.tasks_index_nav'), tasks_path , id: "tasks-index" %></li>
+      <li><%= link_to t('.new_task_nav'), new_task_path , id: "new-task" %></li>
+      <li><%= link_to t('.my_account'), user_path(current_user.id), id: "my-account" %></li>
+      <li><%= link_to t('.sign_out'), session_path(current_user.id), method: :delete, id: "sign-out" %></li>
+    <% elsif logged_in? %>
+      <li><%= link_to t('.tasks_index_nav'), tasks_path , id: "tasks-index"%></li>
+      <li><%= link_to t('.new_task_nav'), new_task_path , id: "new-task"%></li>
+      <li><%= link_to t('.my_account'), user_path(current_user.id), id: "my-account" %></li>
+      <li><%= link_to t('.sign_out'), session_path(current_user.id), method: :delete, id: "sign-out" %></li>
     <% else %>
-      <li><%= link_to Task.human_attribute_name(:sign_up), new_user_path, id: "sign-up" %></li>
-      <li><%= link_to Task.human_attribute_name(:sign_in), new_session_path, id: "sign-in" %></li>
+      <li><%= link_to t('.sign_up'), new_user_path, id: "sign-up" %></li>
+      <li><%= link_to t('.sign_in'), new_session_path, id: "sign-in" %></li>
     <% end %>
     <%= yield %>
   </body>
