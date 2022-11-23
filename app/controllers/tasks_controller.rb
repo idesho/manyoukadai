@@ -3,10 +3,8 @@ class TasksController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
   skip_before_action :logout_required
   before_action :correct_user, only: [:show, :edit]
-
   def index
     @tasks = @current_user.tasks
-
     # 終了期限/優先度ソート機能
     if params[:sort_deadline_on]
       @tasks = @tasks.sort_deadline_on
@@ -20,8 +18,10 @@ class TasksController < ApplicationController
         .search_title(params[:search][:title])
         .search_label(params[:search][:label_id])
     end
+
     # ページネーション
     @tasks = @tasks.page(params[:page]).default_order
+
     # 下記はmodelへ記載
     # if params[:search].present?
     #   if params[:search][:status].present? && params[:search][:title].present?
@@ -35,16 +35,18 @@ class TasksController < ApplicationController
   end
   def new
     @task = Task.new
+    @labels = current_user.labels
   end
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
+    # ラベルをタスクに紐付けするコード
+    if params[:task][:label_ids].present?
+      @task.labels << current_user.labels.where(id: params[:task][:label_ids])
+    end
+
     if @task.save
-      # @label = LabelTask.new(label_id: params[:task][:label_ids].first, task_id: @task.id)
-      if params[:task][:label_ids].present?
-        @task.labels.push(Label.find(params[:task][:label_ids]))
-      end
-      redirect_to tasks_path, notice: Task.human_attribute_name(:task_created)
+      redirect_to tasks_path, notice: t('.task_created')
     else
       render :new
     end
@@ -52,23 +54,28 @@ class TasksController < ApplicationController
   def show
   end
   def edit
+    @labels = current_user.labels
   end
+
   def update
+    # タスクに付与されているラベルを更新するコード
+    if params[:task][:label_ids].present?
+      @task.labels.clear
+      @task.labels << current_user.labels.where(id: params[:task][:label_ids])
+    end
+
     if @task.update(task_params)
-      if params[:task][:label_ids].present?
-        @task.labels.push(Label.find(params[:task][:label_ids]))
-      else
-        @task.labels.destroy_all
-      end
-      redirect_to tasks_path, notice: Task.human_attribute_name(:task_updated)
+      redirect_to tasks_path, notice: t('.task_updated')
     else
       render :edit
     end
   end
+
   def destroy
     @task.destroy
-    redirect_to tasks_path, notice: Task.human_attribute_name(:task_destroyed)
+    redirect_to tasks_path, notice: t('.task_destroyed')
   end
+
   private
     def set_task
       @task = Task.find(params[:id])
@@ -76,8 +83,9 @@ class TasksController < ApplicationController
     def task_params
       params.require(:task).permit(:title, :content, :deadline_on, :priority, :status, :label_ids)
     end
+
     def correct_user
       user_id = Task.find(params[:id]).user_id
-      redirect_to tasks_path, notice: User.human_attribute_name(:correct_user)  unless current_user?(user_id)
+      redirect_to tasks_path, notice:  User.human_attribute_name(:correct_user) unless current_user?(user_id)
     end
 end

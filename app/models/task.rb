@@ -23,5 +23,5 @@ class Task < ApplicationRecord
     where('title LIKE ?',"%#{title}%") }
   scope :search_label, ->(label) {
     return if label.blank?
-    where(id: LabelTask.where(label_id: label).pluck(:task_id))}
+    where(id: LabelTask.where(label_id: label).select(:task_id))}
 end
