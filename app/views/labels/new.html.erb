@@ -12,10 +12,10 @@
 <%= form_with(model: @label, local: true) do |f| %>
   <div>
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
   <div>
-    <%= f.submit %>
+    <%= f.submit class: "btn btn-info" %>
   </div>
 <% end %>
 <%= link_to t('.back'), tasks_path ,id: 'back' %>

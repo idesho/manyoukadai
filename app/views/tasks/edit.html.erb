@@ -18,7 +18,6 @@
     <%= form.label :content %><br>
     <%= form.text_area :content %>
   </div>
-
   <div>
     <%= form.label :deadline_on %><br>
     <%= form.date_field :deadline_on %>
@@ -32,7 +31,7 @@
     <%= form.select :status, Task.statuses.keys, include_blank: "" %>
   </div>
 
-  <div>
+  <div class="checkbox">
     <%= form.label :label %><br>
     <% Label.all.each do |label| %>
       <%= form.check_box :label_ids, { multiple: true, include_hidden: false }, label[:id] %>
@@ -41,7 +40,8 @@
   </div>
 
   <div>
-    <%= form.submit id: 'update-task' %>
+    <%= form.submit id: 'update-task', class: "btn btn-info" %>
   </div>
+
 <% end %>
 <%= link_to t('.back'), tasks_path ,id: 'back' %>

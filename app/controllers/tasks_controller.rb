@@ -41,7 +41,9 @@ class TasksController < ApplicationController
     @task.user_id = current_user.id
     if @task.save
       # @label = LabelTask.new(label_id: params[:task][:label_ids].first, task_id: @task.id)
-      @task.labels.push(Label.find(params[:task][:label_ids]))
+      if params[:task][:label_ids].present?
+        @task.labels.push(Label.find(params[:task][:label_ids]))
+      end
       redirect_to tasks_path, notice: Task.human_attribute_name(:task_created)
     else
       render :new
@@ -56,7 +58,7 @@ class TasksController < ApplicationController
       if params[:task][:label_ids].present?
         @task.labels.push(Label.find(params[:task][:label_ids]))
       else
-        @task.labels.destroy
+        @task.labels.destroy_all
       end
       redirect_to tasks_path, notice: Task.human_attribute_name(:task_updated)
     else
