@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2022_11_23_101013) do
   end
 
   create_table "labels", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
