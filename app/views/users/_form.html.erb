@@ -1,0 +1,20 @@
+<% if user.errors.any? %>
+    <div id="error_explanation" class = "alert alert-danger">
+      <ul>
+        <% user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+<%= form_with(model: user, local: true) do |form| %>
+  <%= form.label :name, t('.name') %><br>
+  <%= form.text_field :name %><br>
+  <%= form.label :email, t('.email') %><br>
+  <%= form.email_field :email %><br>
+  <%= form.label :password, t('.password') %><br>
+  <%= form.password_field :password %><br>
+  <%= form.label :password_confirmation, t('.password_confirmation') %><br>
+  <%= form.password_field :password_confirmation %><br>
+  <%= form.submit id: 'create-user' %>
+<% end %>

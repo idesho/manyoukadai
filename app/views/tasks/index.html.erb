@@ -1,45 +1,49 @@
-<h1><%= Task.human_attribute_name(:tasks_index) %></h1>
-
-<%= form_with(scope: :search, method: :get, local: true) do |form| %>
-  <div>
-    <%= form.label Task.human_attribute_name(:status) %>
-    <%= form.select :status, Task.statuses.keys, include_blank: "" %>
+<h1><%= t('.Tasks Index Page') %></h1>
+<%= form_with(url: tasks_path, method: :get, scope: :search, local: true) do |form| %>
+  <div class="form-row">
+    <div class="col">
+      <%= form.label :status, t('.status') %>
+      <%= form.select :status, Task.statuses.keys.to_a, {include_blank: true}, class: 'form-control' %>
+    </div>
+    <div class="col">
+      <%= form.label :title, t('.title') %>
+      <%= form.text_field :title, class: 'form-control' %>
+    </div>
+    <div class="col">
+      <%= form.label :label, t('.labels') %>
+      <%= form.select :label, current_user.labels.pluck(:name, :id), {include_blank: true}, id: 'search_label_id' %>
+    </div>
   </div>
-  <div>
-    <%= form.label Task.human_attribute_name(:title) %>
-    <%= form.text_field :title %>
-  </div>
-  <div>
-    <%= form.submit Task.human_attribute_name(:search),id: 'search_task' %>
-  </div>
+    <div class = "d-flex justify-content-end col-auto">
+      <%= form.submit t('.search'), id: 'search_task', class: "btn btn-info mt-3" %>
+    </div>
 <% end %>
-
-<table>
+<table class="table">
   <thead>
     <tr>
-      <th><%= Task.human_attribute_name(:title) %></th>
-      <th><%= Task.human_attribute_name(:content) %></th>
-      <th><%= Task.human_attribute_name(:created_at) %></th>
-      <th><%= link_to Task.human_attribute_name(:deadline_on), sort_deadline_on: true %></th>
-      <th><%= link_to Task.human_attribute_name(:priority), sort_priority: true %></th>
-      <th><%= Task.human_attribute_name(:status) %></th>
+      <th><%= t('.title') %></th>
+      <th><%= t('.content') %></th>
+      <th><%= t('.created_at') %></th>
+      <th><%= link_to  t('.deadline_on'), sort_deadline_on: true %></th>
+      <th><%= link_to t('.priority'), sort_priority: true %></th>
+      <th><%= t('.status') %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @tasks.each do |task| %>
-      <tr>
-        <td><%= task.title %></td>
-        <td><%= task.content %></td>
-        <td><%= task.created_at.strftime('%Y/%m/%d %H:%M') %></td>
-        <td><%= task.deadline_on.strftime('%Y/%m/%d') %></td>
-        <td><%= task.priority %></td>
-        <td><%= task.status %></td>
-        <td><%= link_to Task.human_attribute_name(:show), task ,class: 'show-task' %></td>
-        <td><%= link_to Task.human_attribute_name(:edit), edit_task_path(task),class: 'edit-task' %></td>
-        <td><%= link_to Task.human_attribute_name(:destroy), task , class: 'destroy-task', method: :delete, data: { confirm: Task.human_attribute_name(:are_you_sure?) } %></td>
-      </tr>
+    <tr>
+      <td><%= task.title %></td>
+      <td><%= task.content %></td>
+      <td><%= task.created_at.strftime("%Y/%m/%d/%H:%M") %></td>
+      <td><%= task.deadline_on %></td>
+      <td><%= task.priority %></td>
+      <td><%= task.status %></td>
+      <td><%= link_to t('.show-task'), task_path(task), class:'show-task btn btn-primary' %></td>
+      <td><%= link_to t('.edit-task'), edit_task_path(task), class: 'edit-task btn btn-primary' %></td>
+      <td><%= link_to t('.destroy-task'), task_path(task), method: :delete, class: 'destroy-task btn btn-danger', data: {confirm: t('.Are you sure?')} %></td>
+    </tr>
     <% end %>
   </tbody>
 </table>
-<%= paginate @tasks %>
+
+<%= paginate @tasks, theme: 'twitter-bootstrap-4' %>

@@ -5,33 +5,42 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-      <!--<li><%= link_to "Tasks Index", tasks_path, id: "tasks-index"%></li>
-      <li><%= link_to "New Task", new_task_path, id: "new-task"%></li>-->
-      <% flash.each do |key, value| %>
-      <%= content_tag(:div, value, class: "#{key}") %>
-    <% end %>
-    
-    <% if logged_in? && admin_user? %>
-    <li><%= link_to User.human_attribute_name(:users_index), admin_users_path , id: "users-index"%></li>
-      <li><%= link_to User.human_attribute_name(:add_user), new_admin_user_path , id: "new-user"%></li>
-      <li><%= link_to Task.human_attribute_name(:tasks_index_nav), tasks_path , id: "tasks-index"%></li>
-      <li><%= link_to Task.human_attribute_name(:new_task_nav), new_task_path , id: "new-task"%></li>
-      <li><%= link_to Task.human_attribute_name(:my_account), user_path(current_user.id), id: "my-account" %></li>
-      <li><%= link_to Task.human_attribute_name(:sign_out), session_path(current_user.id), method: :delete, id: "sign-out" %></li>
-      <% elsif logged_in? %>
-      <li><%= link_to Task.human_attribute_name(:tasks_index_nav), tasks_path , id: "tasks-index"%></li>
-      <li><%= link_to Task.human_attribute_name(:new_task_nav), new_task_path , id: "new-task"%></li>
-      <li><%= link_to Task.human_attribute_name(:my_account), user_path(current_user.id), id: "my-account" %></li>
-      <li><%= link_to Task.human_attribute_name(:sign_out), session_path(current_user.id), method: :delete, id: "sign-out" %></li>
-    <% else %>
-      <li><%= link_to Task.human_attribute_name(:sign_up), new_user_path, id: "sign-up" %></li>
-      <li><%= link_to Task.human_attribute_name(:sign_in), new_session_path, id: "sign-in" %></li>
-    <% end %>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <%= link_to 'Task App', tasks_path, class: 'navbar-brand' %>
+      <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <% if logged_in? %>
+            <% if user_admin? %>
+              <li class="nav-item"><%= link_to t("defaults.users-index"), admin_users_path, id: 'users-index', class: "nav-link" %>
+              <li class="nav-item"><%= link_to t("defaults.add-user"), new_admin_user_path, id: 'new-user', class: "nav-link" %>
+            <% end %>
+            <li class="nav-item"><%= link_to t('defaults.Tasks Index'), tasks_path, id: 'tasks-index', class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to t('defaults.New Task'), new_task_path, id: 'new-task', class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to t('defaults.labels-index'), labels_path, id: 'labels-index', class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to t('defaults.new-label'), new_label_path, id: 'new-label', class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to t('defaults.my-account'), user_path(current_user.id), id: 'my-account', class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to t('defaults.sign-out'), session_path(current_user.id), id: 'sign-out', method: :delete, class: "nav-link" %></li>
+          <% else %>
+            <li class="nav-item"><%= link_to t('defaults.sign-up'), new_user_path, id: 'sign-up', class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to t('defaults.sign-in'), new_session_path, id: 'sign-in', class: "nav-link" %></li>
+          <% end %>
+        </ul>
+      </div>
+  </nav>
+  <% flash.each do |key, value| %>
+      <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+  <% end %>
+  <div class = "container">
     <%= yield %>
+  </div>
   </body>
 </html>

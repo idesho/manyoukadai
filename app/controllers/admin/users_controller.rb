@@ -1,70 +1,64 @@
 class Admin::UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
-  before_action :if_not_admin
-  skip_before_action :login_required, only: [:new, :create]
-  skip_before_action :logout_required
-  before_action :destroy_if_only_one_admin, only: [:destroy]
-  before_action :update_if_only_one_admin, only: [:update]
+  before_action :admin_required, only: [:index, :new, :edit, :show]
 
-    def index
-      @users = User.all
-    end
-  
-    def new
-      @user = User.new
-    end
-  
-    def create
-      @user = User.new(user_params)
-      if @user.save
-        redirect_to admin_users_path, notice: User.human_attribute_name(:user_created)
-      else
-        render :new
-      end
-    end
-  
-    def show
-      @tasks = current_user.tasks
-    end
 
-    def edit
-    end
-  
-    def update
-      if @user.update(user_params)
-        redirect_to admin_users_path, notice: User.human_attribute_name(:user_updated)
-      else
-        render :edit
-      end
-    end
-  
-    def destroy
-      @user.destroy
-      redirect_to admin_users_path, notice: User.human_attribute_name(:user_deleted)
-    end
-  
-    private
-    def set_user
-      @user = User.find(params[:id])
-    end
-  
-    def if_not_admin
-      redirect_to root_path, notice: User.human_attribute_name(:admin_user) unless current_user&.admin == true
-    end
+  def index
+    @users = User.all
+  end
 
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
-    end
-
-    def destroy_if_only_one_admin
-      if User.where(admin: 'true').count == 1 && @user.admin == true
-        redirect_to admin_users_path, notice: User.human_attribute_name(:admin_destroy)
-      end
-    end
+  def new
+    @user = User.new
     
-    def update_if_only_one_admin
-      if User.where(admin: 'true').count == 1 && @user.admin == true
-        redirect_to admin_users_path, notice: User.human_attribute_name(:admin_update)
-      end
+  end
+
+  def create 
+    @user = User.new(user_params)
+    if @user.save
+      flash[:primary] = 'ユーザを登録しました'
+      redirect_to admin_users_path
+    else
+      render :new
     end
   end
+
+  def show
+    @user = User.find(params[:id])
+    @tasks = @user.tasks
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update    
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      flash[:success] = 'ユーザを更新しました'
+      redirect_to admin_users_path
+    else
+      flash[:warning] = '管理者権限を持つアカウントが0件になるため更新できません' if @user.errors.any?
+      render :edit
+    end
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    if @user.destroy
+      flash[:danger] = 'ユーザを削除しました'
+      redirect_to admin_users_path
+    else
+      flash[:warning] = '管理者権限を持つアカウントが0件になるため削除できません'
+      redirect_to admin_users_path
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
+  end
+
+  def admin_required
+    redirect_to tasks_path, flash: {warning: "管理者以外はアクセスできません"} unless user_admin?
+  end
+end

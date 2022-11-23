@@ -1,30 +1,24 @@
-<h1><%= User.human_attribute_name(:users_index) %></h1>
-
-<table>
+<h1><%= t('.User Index Page') %></h1>
+<table class="table">
   <thead>
     <tr>
-      <th><%= User.human_attribute_name(:name) %></th>
-      <th><%= User.human_attribute_name(:email) %></th>
-      <th><%= User.human_attribute_name(:administration) %></th>
-      <th><%= User.human_attribute_name(:tasks_number) %></th>
+      <th><%= t('.name') %></th>
+      <th><%= t('.email') %></th>
+      <th><%= t('.admin') %></th>
+      <th><%= t('.tasks') %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @users.preload(:tasks).each do |user| %>
-      <tr>
-        <td><%= user.name  %></td>
-        <td><%= user.email %></td>
-        <% if user.admin == true  %>
-          <td><%= "あり" %></td>
-        <% else %>
-          <td><%= "なし" %></td>
-        <% end %>
-        <td><%= user.tasks.count %></td>
-        <td><%= link_to User.human_attribute_name(:show), admin_user_path(user) ,class: 'show-user' %></td>
-        <td><%= link_to User.human_attribute_name(:edit), edit_admin_user_path(user),class: 'edit-user' %></td>
-        <td><%= link_to User.human_attribute_name(:destroy), admin_user_path(user) , class: 'destroy-user', method: :delete, data: { confirm: User.human_attribute_name(:are_you_sure?) } %></td>
-      </tr>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.email %></td>
+      <td><%= user.admin_i18n %></td>
+      <td><%= user.tasks.count %></td>
+      <td><%= link_to t('.show-user'), admin_user_path(user), class:'show-user btn btn-primary' %></td>
+      <td><%= link_to t('.edit-user'), edit_admin_user_path(user), class: 'edit-user btn btn-primary' %></td>
+      <td><%= link_to t('.destroy-user'), admin_user_path(user), method: :delete, class: 'destroy-user btn btn-danger', data: {confirm: t('.Are you sure?')} %></td>
+    </tr>
     <% end %>
   </tbody>
 </table>
