@@ -4,8 +4,8 @@ RSpec.describe 'ラベル管理機能', type: :system do
   before do
     @current_user = User.find_by(email: "adminadmino@piyopiyo.com")
     visit new_session_path
-    fill_in 'メールアドレス', with: 'adminadmino@piyopiyo.com'
-    fill_in 'パスワード', with: '123456'
+    fill_in 'session[email]', with: 'adminadmino@piyopiyo.com'
+    fill_in 'session[password]', with: '123456'
     click_button 'ログイン'
   end
 
@@ -13,7 +13,7 @@ RSpec.describe 'ラベル管理機能', type: :system do
     context 'ラベルを登録した場合' do
       it '登録したラベルが表示される' do
         visit new_label_path
-        fill_in '名前', with: 'らべる'
+        fill_in 'label[name]', with: 'らべる'
         click_button '登録する'
         expect(page).to have_content 'らべる'
       end
