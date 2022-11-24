@@ -4,10 +4,10 @@ RSpec.describe 'ユーザ管理機能', type: :system do
     context 'ユーザを登録した場合' do
       it 'タスク一覧画面に遷移する' do
         visit new_user_path
-        fill_in 'user[name]', with: '野獣先輩'
-        fill_in 'user[email]', with: 'ikisugi@koko.com'
-        fill_in 'user[password]', with: '114514'
-        fill_in 'user[password_confirmation]', with: '114514'
+        fill_in 'user[name]', with: 'ハム太郎'
+        fill_in 'user[email]', with: 'hamuhamu@hamuhamu.com'
+        fill_in 'user[password]', with: '123456'
+        fill_in 'user[password_confirmation]', with: '123456'
         click_button '登録する'
         expect(page).to have_content 'タスク一覧ページ'
       end
